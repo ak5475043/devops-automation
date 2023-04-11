@@ -1,39 +1,30 @@
-pipeline {
+pipeline{
     agent any
     tools{
-        maven 'maven_3_5_0'
+        maven 'maven3.5.0'
+            
     }
     stages{
-        stage('Build Maven'){
+        stage('build maven'){
             steps{
-                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Java-Techie-jt/devops-automation']]])
-                sh 'mvn clean install'
+                
+            sh 'mvn clean install'
             }
         }
-        stage('Build docker image'){
+        stage('build docker image'){
             steps{
-                script{
-                    sh 'docker build -t javatechie/devops-integration .'
-                }
+            
+                sh 'sudo docker build -t ayush2107/devops-integration:1.0 .'
+                
+            }
+        }    
+        stage('push image to hub'){
+            steps{
+                sh 'sudo docker login -u ayush2107 -p urhacked21'
+                sh 'sudo docker push ayush2107/devops-integration:1.0'
             }
         }
-        stage('Push image to Hub'){
-            steps{
-                script{
-                   withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
-                   sh 'docker login -u javatechie -p ${dockerhubpwd}'
-
-}
-                   sh 'docker push javatechie/devops-integration'
-                }
-            }
-        }
-        stage('Deploy to k8s'){
-            steps{
-                script{
-                    kubernetesDeploy (configs: 'deploymentservice.yaml',kubeconfigId: 'k8sconfigpwd')
-                }
-            }
-        }
+        
     }
+    
 }
