@@ -24,12 +24,7 @@ pipeline{
                 sh 'sudo docker push ayush2107/devops-integration:1.0'
             }
         }
-        stage('pull image from hub'){
-           steps{
-               sh 'sudo ssh -i "MyKeyPair.pem" ubuntu@ec2-18-233-9-217.compute-1.amazonaws.com -yes'
-               sh 'sudo docker run -it -d -p 9090:8080 ayush2107/devops-integration:1.
-           }
-       }    
+           
     }
     
 }
