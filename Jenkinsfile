@@ -24,11 +24,7 @@ pipeline{
                 sh 'sudo docker push ayush2107/devops-integration:1.0'
             }
         }
-        stage('k8s'){
-            steps{
-                sh 'kubectl apply -f /var/lib/jenkins/workspace/dockerr/deploymentservice.yaml'
-            }
-        }
+       
     }
     
 }
