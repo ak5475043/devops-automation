@@ -26,7 +26,7 @@ pipeline{
         }
         stage('k8s'){
             steps{
-                sh 'kubectl apply -f deploymentservice.yaml'
+                sh 'kubectl apply -f /var/lib/jenkins/workspace/dockerr/deploymentservice.yaml'
             }
         }
     }
